@@ -145,6 +145,4 @@ mad-prompters-real-estate-studio/                <- repo root
 
 ## 📜 License
 
-MIT © 2026 Marco Figueroa-Mitsakos (**The Mad Prompter** / Mad Prompters). See [LICENSE](LICENSE).
-
 Built for **Mad Prompters University** & **Higgsfield** creators.
