@@ -3,6 +3,12 @@
 All notable changes to **Mad Prompters Real Estate Studio** are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/); versioning follows [SemVer](https://semver.org/).
 
+## [1.5.0] - 2026-06-27
+### Added
+- **Floor Plan Lock (optional).** Provide a floor plan and the skill uses it as a spatial map: it labels unlabeled photos by room, orders the walkthrough by real adjacencies, and tags every transition glide-vs-cut. The room-match confirmation folds into the existing hero-approval gate (no new stop), with an opt-in floor-plan "you-are-here" beat (default off).
+### Notes
+- The plan is a **planning input for the storyboard, not a runtime input for the video model** — the plan image only enters the render if the orientation beat is requested; otherwise it stays a behind-the-scenes planning tool. No plan provided → the skill falls back to the standard best-guess beat order.
+
 ## [1.4.0] - 2026-06-26
 ### Added
 - **Viral cut / FX presets (3).** **Viral Cut**, **FX Showcase**, and **Hype Reel** — fast, beat-synced edits rendered as a single 15-second Seedance clip with **internal hard cuts** (no stitching). FX and cuts land only on locked frames, so a fast edit still can't morph.

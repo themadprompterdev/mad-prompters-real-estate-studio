@@ -1,7 +1,7 @@
 ---
 name: mad-prompters-real-estate-studio
-description: Morph-free real-estate videos from listing photos, run on the Higgsfield MCP inside Claude — smooth walkthroughs AND punchy viral cut-style edits, with selectable cinematic style presets. Pick a look: continuous walkthroughs (Smooth Glide, Luxe Cinematic, FPV Rush, Bright & Airy, Twilight Glam, Story) or hard-cut viral styles (Viral Cut, FX Showcase, Hype Reel), plus a Creator Mode that adds viral pacing to walkthroughs. Every style locks to your real photos via a storyboard, so nothing morphs. Runs on Seedance 2.0 (one 15s clip, even multi-shot with hard cuts) or Marketing Studio, with music, optional voiceover, optional on-screen text hooks, and a timed hook/body/CTA script. Use whenever the user wants a property/listing/home-tour video, a real-estate reel, a flythrough, or a viral listing edit — or drops home photos and wants footage. Handles intake, best-shot triage from up to 30 photos, a locked 9–12-panel storyboard, optional VO and CTA, and runs the video in chat.
-version: 1.4.0
+description: Morph-free real-estate videos from listing photos, run on the Higgsfield MCP inside Claude — smooth walkthroughs AND punchy viral cut-style edits, with 10 cinematic style presets. Pick a continuous walkthrough or a hard-cut viral style, plus a Creator Mode that adds viral pacing to walkthroughs. Every style locks to your real photos via a storyboard so nothing morphs; an optional Floor Plan Lock uses a plan to label unlabeled photos by room, order the path by real adjacencies, and pick glide-vs-cut transitions. Runs on Seedance 2.0 (one 15s clip, even multi-shot with hard cuts) or Marketing Studio, with music, optional voiceover, and on-screen text hooks baked into the storyboard. Use whenever the user wants a property/listing/home-tour video, a real-estate reel, a flythrough, or a viral listing edit — or drops home photos (and maybe a floor plan) and wants footage. Handles intake, best-shot triage from up to 30 photos, a locked 9–12-panel storyboard, optional VO and CTA, and runs the video in chat.
+version: 1.5.0
 author: The Mad Prompter
 license: MIT
 ---
@@ -134,7 +134,7 @@ When a **cut preset** is chosen **or Creator Mode is ON**, ASK whether they want
    - **If a Walkthrough preset was picked** *(button)* — offer **Creator Mode** ("Add viral pacing — punch-ins, speed ramps, beat-synced cuts?"), available on all walkthrough presets except Story.
    - **Lock the preset bundle** from the table above (plus Creator Mode if chosen).
 2. **Property** — name/address/listing label (free text).
-3. **Photos** — "Attach the home's photos in chat (up to 30) so I can see them and pick the best."
+3. **Photos (+ optional floor plan)** — "Attach the home's photos in chat (up to 30) so I can see them and pick the best. If you have a **floor plan**, attach it too — I'll use it to label rooms and lock the path." If a floor-plan image is among the uploads (or the user mentions one), set **Floor Plan Lock ON** (Phase 2.5).
 4. **Only-what's-left** *(button)* — ask ONLY the items the preset didn't decide:
    - **Engine** if not obvious (default Seedance 2.0).
    - **Aspect** only if the preset didn't set one (Smooth Glide / FPV Rush / Bright & Airy / Story).
@@ -161,9 +161,34 @@ Triage from the chat attachments FIRST, then upload only the winners (sidesteps 
    4. LIVING / SECOND INTERIOR (optional).
    5. VIEW / BALCONY / POOL / BACKYARD (the "step outside" reveal).
    6. EXTERIOR CLOSE / AERIAL (the climax — can reuse the exterior plate).
-2. **Criteria:** sharpness, lighting, composition, hero appeal, and **coverage diversity**. **Exclude** floorplans, unfinished/raw spaces, clutter, and redundant angles — and say why.
-3. **STOP and confirm by FILENAME:** "[filename — one-line why]. Swap any?" Wait for the user.
+2. **Criteria:** sharpness, lighting, composition, hero appeal, and **coverage diversity**. **Exclude** floorplans, unfinished/raw spaces, clutter, and redundant angles — and say why. **If a floor plan was provided (Floor Plan Lock ON), run Phase 2.5 first** to label each photo's room and order the heroes by real adjacency.
+3. **STOP and confirm by FILENAME** *(+ room label when a floor plan was provided)*: "[filename — room — one-line why]. Swap any?" Wait for the user.
 4. **After confirmation, upload only the heroes:** `Higgsfield:media_upload_widget` (`type: image`, `min_files: 4`, `max_files: 20` — caps at 20/batch, `multiple: true`). Map each filename → `media_id`. (Batch in ≤20 if ever needed.)
+
+---
+
+## PHASE 2.5 — FLOOR PLAN LOCK (optional — only if a floor plan is provided)
+
+A floor plan is a **spatial** map; the storyboard is a **temporal** one. Together they kill the two things the model otherwise invents — the path through the house and what's adjacent to what — making this the strongest anti-morph aid available. **But it's a planning input for the storyboard, NOT a runtime input for the video model.** Seedance / gpt_image_2 won't "navigate" a blueprint; the plan informs how *you* build the board.
+
+**Skip this phase entirely if no plan was given** — fall back to the standard best-guess beat order.
+
+**What the plan does:**
+1. **Labels unlabeled photos.** Cross-reference each chosen photo against the plan — the white kitchen matches the kitchen on the plan, the corner room with two windows matches the primary bedroom. This is how rooms get identified when the photos aren't named.
+2. **Orders the walkthrough by real adjacency.** Build the camera path from rooms that actually connect (kitchen → dining → living because they share an opening), not a guess that forces an invented hallway.
+3. **Tags every transition glide-vs-cut.** Adjacent rooms → a continuous **glide** on a bloom (a real move). Non-adjacent rooms (upstairs bed → backyard) → an honest **match-cut**. The morph rule, now driven by the actual layout instead of a guess.
+
+**How to run it:**
+- **Identify the plan:** it's the upload that's a 2D schematic (line drawing / labeled rooms), not a photo. Never treat it as a hero plate or upload it as a walkthrough beat.
+- **Build the adjacency map:** from the plan, note which hero rooms touch (shared wall or doorway) and the natural route — entry → public spaces → private spaces → outside.
+- **Map photos → rooms → path:** produce the ordered beat list with a **room label** per hero and a **glide/cut tag** per transition.
+- **Confirm at the Phase 2 gate (no new stop):** the hero list now reads e.g. *"IMG_2231 → Kitchen (glide from Entry)."* The user fixes any mislabel there. If a match is uncertain, say so and ask.
+
+**Optional floor-plan beat** *(ask once, only when a plan is present — button)*: "Want a quick floor-plan orientation beat (a 'you-are-here' moment)?" Default **no**.
+- **Yes** → add ONE panel to the storyboard that renders the plan as a clean orientation card (opening establisher or mid-tour locator), and pass the plan image as a `role: image` reference **for that panel only**. Keep it short (~1–2s); the rest stays photoreal rooms.
+- **No** → the plan stays a behind-the-scenes planning tool and never appears on screen.
+
+**Feeding downstream:** the plan-derived **path + per-transition glide/cut tags** become the beat order in Phase 3. The plan image goes into Phase 3 **only** if the orientation beat was requested — **never** into the Seedance `medias` directly (it would try to render the blueprint into rooms).
 
 ---
 
@@ -174,10 +199,11 @@ The storyboard is the temporal lock. **Beat count comes from the preset:** 9 pan
 **Two board kinds:**
 - **Continuous presets** → a **path board**: the 9/12 panels read as one unbroken move; room-changes only on blooms.
 - **Cut presets (Viral Cut / FX Showcase / Hype Reel)** → a **SHOT-LIST board**: each of the 12 panels is a *discrete hard-cut shot*. Intercut wide reveals with punch-in detail shots and revisit a room if it helps the rhythm — order for energy, not for a continuous path. Each panel is still locked to a real plate.
+- **If Floor Plan Lock ran (plan provided):** order the panels by the plan-derived **path** and honor the **glide/cut tags** — glide transitions use blooms/continuous moves, cut transitions use match-cuts (hard cuts for cut presets). If the orientation beat was requested, add ONE floor-plan card panel and pass the plan image as a `role: image` reference for that panel only.
 
 Call `Higgsfield:generate_image`:
 - `model: gpt_image_2`
-- `medias`: the confirmed hero plates, each `role: image`
+- `medias`: the confirmed hero plates, each `role: image` (plus the floor-plan image **only if** an orientation beat was requested)
 - `aspect_ratio`: **match delivery orientation** — `3:2` for 16:9, `2:3` for 9:16, `1:1` for square. (Planning map; final framing set by the engine in Phase 6.)
 - `resolution: 4k`, `quality: high`
 
@@ -331,6 +357,7 @@ Next moves:
 - **On-screen text** = ASK when a cut preset / Creator Mode is active; confirm exact lines; **bake them into the storyboard panels** so they render in-video (post only as fallback).
 - **Twilight Glam wording** = *warm evening / amber / golden-hour*, never *sensual/dusk/glowing/dark* (NSFW false-trip → refund).
 - **Storyboard attached FIRST** in `medias` (both engines) — the anti-morph anchor.
+- **Floor Plan Lock (optional)** = if a floor plan is provided, use it to label unlabeled photos by room, order the path by real adjacency, and tag transitions glide-vs-cut. A planning input for the storyboard, **not** a Seedance input; optional 'you-are-here' beat, default off.
 - **Decline auto-matched Higgsfield presets** (`declined_preset_id`) — our styles live in the prompt.
 - **Board orientation follows delivery aspect** — `3:2` / `2:3` / `1:1`.
 - **Seedance 2.0:** full 15s in ONE gen (4–15s), `start_image`/`end_image` bookends, `generate_audio` toggle (scratch bed → license in post). `genre` from preset.

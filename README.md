@@ -1,7 +1,7 @@
 # 🎬 Mad Prompters Real Estate Studio
 ### by The Mad Prompter
 
-![Version](https://img.shields.io/badge/version-1.4.0-E6B422)
+![Version](https://img.shields.io/badge/version-1.5.0-E6B422)
 ![License](https://img.shields.io/badge/license-MIT-3b82f6)
 ![Claude Skill](https://img.shields.io/badge/Claude-Skill-8b5cf6)
 ![Engine](https://img.shields.io/badge/Higgsfield-Seedance%202.0-111111)
@@ -19,7 +19,7 @@ Works for **any tier** — luxury estate to updated starter/character home — a
 
 AI home walkthroughs **morph**: when a camera flies *through* disconnected rooms, the model invents the hallways and stairs in between — and those invented spaces warp, so the video stops looking like the real house.
 
-**The fix:** every beat is locked to a real photo via a **9- or 12-panel storyboard** attached first. Continuous styles only interpolate *between* locked frames; cut styles hard-cut *between* locked frames and apply FX only *on* them. Room-changes happen on deliberate light-blooms or match-cuts. Nothing is left for the AI to invent — even in a fast edit.
+**The fix:** every beat is locked to a real photo via a **9- or 12-panel storyboard** attached first. Continuous styles only interpolate *between* locked frames; cut styles hard-cut *between* locked frames and apply FX only *on* them. Room-changes happen on deliberate light-blooms or match-cuts. Nothing is left for the AI to invent — even in a fast edit. **Have a floor plan? Even better** — *Floor Plan Lock* turns it into a spatial map: it labels your unlabeled photos by room, orders the path by which rooms actually connect, and marks each transition as a real glide or an honest cut.
 
 ---
 
@@ -30,6 +30,7 @@ AI home walkthroughs **morph**: when a camera flies *through* disconnected rooms
   - *Viral cut / FX:* **Viral Cut**, **FX Showcase**, **Hype Reel** — hard cuts, punch-ins, and FX in a single clip.
 - **Creator Mode** — a toggle that layers viral pacing (punch-ins, speed ramps, beat-sync, hard cuts) onto any walkthrough style.
 - **Morph-free lock** — a storyboard pins every shot to your real photos; cuts and FX only ever land on locked frames.
+- **Floor Plan Lock (optional)** — hand it a floor plan and it labels your unlabeled photos by room, orders the walkthrough by real adjacencies, and picks glide-vs-cut transitions — the strongest anti-morph aid there is.
 - **True one-take *or* internal hard cuts** — Seedance 2.0 renders the full 15 seconds — cuts included — in a single clip.
 - **Dual-engine** — Seedance 2.0 (default) or Marketing Studio.
 - **Music, voiceover & on-screen text** — music bed on/off, VO on/off with a timed Hook / Body / CTA script, and optional text hooks/stat-cards rendered right in the clip (baked into the storyboard).
@@ -53,6 +54,7 @@ AI home walkthroughs **morph**: when a camera flies *through* disconnected rooms
 Style    →  pick a preset (Walkthrough / Viral-Cut / Recommend)   (tappable)
             walkthrough? optional Creator Mode for viral pacing
 Photos   →  attach in chat (<=30) for triage
+Plan     →  optional floor plan -> locks rooms + path (Floor Plan Lock)
 Triage   →  approve 4-6 hero shots by filename
 Upload   →  winners only, via the Higgsfield widget (<=20/batch)
 Options  →  only what the style didn't set (engine - aspect - audio - CTA - text)
@@ -110,6 +112,7 @@ Full walkthrough: [`mad-prompters-real-estate-studio/HOW-TO-USE.md`](mad-prompte
 - Marketing Studio renders **silent** → all audio is post for that engine.
 - Cut styles are still **one clip** — the hard cuts happen inside a single render, not a separate edit.
 - A front → backyard → front move isn't a real oner → the closing exterior is a clean **beauty-card cut**.
+- A floor plan is a **planning input** (it shapes how the storyboard is built); the video model can't navigate a blueprint, so the plan itself only appears on screen if you opt into the orientation beat.
 
 ---
 
@@ -144,5 +147,7 @@ mad-prompters-real-estate-studio/                <- repo root
 ---
 
 ## 📜 License
+
+MIT © 2026 Marco Figueroa-Mitsakos (**The Mad Prompter** / Mad Prompters). See [LICENSE](LICENSE).
 
 Built for **Mad Prompters University** & **Higgsfield** creators.

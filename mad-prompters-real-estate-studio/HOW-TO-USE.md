@@ -51,6 +51,20 @@ Every style keeps the same morph-free lock to your real photos. Only the camera,
 
 ---
 
+## Floor plans (optional — your strongest anti-morph tool)
+
+If you have a floor plan, attach it with the photos — it's the single biggest accuracy upgrade available. Morphing happens because the model has no map of the house; a floor plan *is* that map. When you provide one, the skill:
+
+- **Labels your unlabeled photos by room** — it matches each shot to a room on the plan, so you never have to name them.
+- **Orders the walkthrough by real adjacency** — the camera moves between rooms that actually connect, instead of inventing a hallway to get there.
+- **Picks glide-vs-cut per transition** — adjacent rooms get a smooth glide; rooms that don't touch get an honest cut.
+
+You'll see the room labels and path in the hero-approval step (no extra back-and-forth), and you can fix any mislabel there. There's also an **optional "you-are-here" beat** — a quick floor-plan orientation moment in the video — which the skill offers as a simple yes/no (default off) only when you've supplied a plan.
+
+One honest note: the plan guides how the *storyboard* is built; the video model can't fly through a blueprint. So unless you opt into the orientation beat, the plan stays behind the scenes as a planning tool. No plan? The skill just falls back to its normal best-guess ordering.
+
+---
+
 ## When it runs
 
 **Automatically**, when you start a property-video task. You don't flip a switch — just describe what you want. Openers that trigger it:
@@ -68,7 +82,7 @@ Every style keeps the same morph-free lock to your real photos. Only the camera,
 
 1. **Enable the Higgsfield connector** in the conversation. Every generation (storyboard image, voiceover, video) runs through it.
 2. **Have the photos ready.** Up to 30 per home. Listing/MLS photos are perfect.
-3. **Optional:** a property description (address, beds/baths, standout features). Helps the copy.
+3. **Optional but powerful:** a **floor plan** if you have one (it locks rooms + the camera path — see *Floor plans* below), and/or a property description (address, beds/baths, standout features) to sharpen the copy.
 
 ---
 
@@ -81,9 +95,9 @@ Every style keeps the same morph-free lock to your real photos. Only the camera,
    - Second tap: up to 4 curated presets from that family.
    - If you picked a walkthrough, Claude offers **Creator Mode** ("add viral pacing?").
 
-**3. Drop the photos + description.** Attach the photos **in the chat** (so Claude can see and judge them) and paste any description. Chat attachments have no count limit — attach all of them here first.
+**3. Drop the photos + description.** Attach the photos **in the chat** (so Claude can see and judge them) and paste any description. Chat attachments have no count limit — attach all of them here first. **Have a floor plan? Attach it here too** — it unlocks room labeling and path-locking (see *Floor plans* above).
 
-**4. Approve the hero shots.** Claude looks at every photo, sorts them into beats (exterior → living → kitchen → feature room → outside → exterior close), and proposes **4–6 hero shots by filename** with a one-line reason each. It tells you what it excluded (floorplans, raw/unfinished spaces, clutter, redundant angles). Swap anything, then approve.
+**4. Approve the hero shots.** Claude looks at every photo, sorts them into beats (exterior → living → kitchen → feature room → outside → exterior close), and proposes **4–6 hero shots by filename** with a one-line reason each. It tells you what it excluded (floorplans, raw/unfinished spaces, clutter, redundant angles). Swap anything, then approve. If you provided a floor plan, each hero is also labeled by room and placed in walkthrough order — correct any mislabel here.
 
 **5. Upload the winners.** Claude opens the Higgsfield uploader for **only the approved shots** (max 20 per batch) and maps each filename to its Higgsfield ID.
 
@@ -160,6 +174,7 @@ Claude confirms the literal lines and where they land, then **bakes them right i
 - **One continuous take has honest seams.** Going front → backyard → front isn't a real oner, so the closing exterior is a clean "beauty-card" cut.
 - **Cut styles are still one clip.** The hard cuts happen *inside* a single Seedance render — there's no separate editing step to assemble them.
 - **Preset auto-match.** Higgsfield sometimes thinks your prompt matches a named preset (like "IN THE DARK") and pauses — the skill declines it and generates your exact prompt. (Evening styles trip this every time; it's handled.)
+- **A floor plan is a planning aid, not navigation.** It shapes how the storyboard is built (room labels, path, glide/cut). The plan image only appears on screen if you opt into the orientation beat; otherwise it stays behind the scenes.
 
 ---
 
@@ -169,6 +184,7 @@ Claude confirms the literal lines and where they land, then **bakes them right i
 Style    →  pick a preset (Walkthrough / Viral-Cut / Recommend) — tappable
             (walkthrough? optional Creator Mode for viral pacing)
 Photos   →  attach in chat (≤30) for triage
+Plan     →  optional floor plan → locks rooms + path (Floor Plan Lock)
 Triage   →  approve 4–6 hero shots by filename
 Upload   →  winners only, via the Higgsfield widget (≤20/batch)
 Options  →  only what the style didn't set (engine · aspect · audio · CTA · text)
